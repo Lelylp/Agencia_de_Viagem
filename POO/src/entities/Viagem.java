@@ -58,5 +58,4 @@ public class Viagem {
 	public void setDetalhes(List<DetalheDaViagem> detalhes) {
 		this.detalhes = detalhes;
 	}
-	//falta coisas
 }

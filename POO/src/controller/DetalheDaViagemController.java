@@ -64,7 +64,7 @@ public class DetalheDaViagemController {
 		}
 	}
 	public List<DetalheDaViagem> consultarDetalhes(DetalheDaViagem detalheDaViagem) {
-		List<DetalheDaViagem> detalheDaViagens = repositorio.consultar(detalheDaViagem);
+		List<DetalheDaViagem> detalheDaViagens = repositorio.listar(detalheDaViagem);
 		if (detalheDaViagens.size() > 0 && detalheDaViagens.get(0) != null) {
 			return detalheDaViagens;
 		} else {

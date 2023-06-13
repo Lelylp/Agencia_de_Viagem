@@ -58,13 +58,12 @@ public class PassagemController {
 	public Passagem alterarPassagemViagem(Passagem passagem) {
 		Passagem consultaSeJaExiste = (Passagem) this.consultarAssentoPassagemDaViagem(passagem.getAssento());
 		if (consultaSeJaExiste != null) {
-			if (passagem.getAssento().equals(repositorio.consultar(passagem))) {
+			if ((repositorio.consultarCadeira(passagem.getAssento()))) {
 				System.out.println("Assentos invalido "+passagem);
 				return null;
 			} else {
-				repositorio.alterar(passagem)
+				repositorio.alterar(passagem);
 				//ViagemController.getInstance().atualizarDetalhe(objDDViagem);
-				//alguma coisa
 				return consultaSeJaExiste;
 			}
 		}else {
@@ -83,7 +82,7 @@ public class PassagemController {
 		}
 	}
 	public List<Passagem> consultarAssentoPassagemDaViagem(String assento) {
-		List<Passagem> passagens = repositorio.consultar(new Passagem(assento));
+		List<Passagem> passagens = repositorio.listar(new Passagem(assento));
 	
 		if (passagens.size() > 0 && passagens.get(0) != null) {
 			return passagens;
@@ -92,4 +91,5 @@ public class PassagemController {
 			//throw new DisciplinaNotFoundException("Nenhuma disciplina encontrada para o id: " + id);
 		}
 	}
+
 }

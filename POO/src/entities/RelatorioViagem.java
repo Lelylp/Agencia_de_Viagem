@@ -6,11 +6,15 @@ public class RelatorioViagem {
     private String destino;
     private int numeroViagens;
 
-    public RelatorioViagem(Integer id, int mes, String destino, int numeroViagens) {
-		this.id = id;
+    public RelatorioViagem(int mes, String destino, int numeroViagens) {
+		this.id = 0;
 		this.mes = mes;
 		this.destino = destino;
 		this.numeroViagens = numeroViagens;
+	}
+
+	public RelatorioViagem(int mes) {
+		this.mes = mes;
 	}
 
 	public int getMes() {

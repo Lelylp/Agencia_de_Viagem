@@ -7,5 +7,5 @@ import java.util.List;
 		public Obj inserir(Obj obj);
 		public Obj alterar(Obj obj);
 		public Obj excluir(Obj obj);
-		public List<Obj> consultar(Obj obj);
+		public List<Obj> listar(Obj obj);
 }

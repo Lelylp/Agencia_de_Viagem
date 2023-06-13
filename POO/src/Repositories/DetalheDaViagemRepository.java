@@ -57,7 +57,7 @@ public class DetalheDaViagemRepository implements GenericRepository<DetalheDaVia
 	}
 
 	@Override
-	public List<DetalheDaViagem> consultar(DetalheDaViagem objDDViagem) {
+	public List<DetalheDaViagem> listar(DetalheDaViagem objDDViagem) {
 		List<DetalheDaViagem> listaDosDetalhesDaViagem = new ArrayList<DetalheDaViagem>();
 		listaDosDetalhesDaViagem.add(detalheDaViagem.get(objDDViagem.getId()));
 		return listaDosDetalhesDaViagem;

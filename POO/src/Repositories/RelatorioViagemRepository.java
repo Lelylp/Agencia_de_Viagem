@@ -3,6 +3,7 @@ package Repositories;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import entities.RelatorioViagem;
 
@@ -59,10 +60,21 @@ public class RelatorioViagemRepository implements GenericRepository<RelatorioVia
 	}
 
 	@Override
-	public List<RelatorioViagem> consultar(RelatorioViagem relatorioViagem) {
+	public List<RelatorioViagem> listar(RelatorioViagem relatorioViagem) {
 		List<RelatorioViagem> lista = new ArrayList<RelatorioViagem>();
 		lista.add(this.relatorioViagem.get(relatorioViagem.getId()));
 		return lista;
 	}
+
+	public List<RelatorioViagem> consultarPorMes(int mes) {
+		List<RelatorioViagem> listaComMeses = relatorioViagem
+				.values()
+				.stream()
+				.filter(d-> d.getMes() == mes)
+				.collect(Collectors.toList());
+   
+		return listaComMeses;
+	}
+
 }
 //CRUD OK

@@ -3,6 +3,7 @@ package Repositories;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import entities.Passagem;
 
@@ -59,11 +60,22 @@ public class PassagemRepository implements GenericRepository<Passagem> {
 	}
 
 	@Override
-	public List<Passagem> consultar(Passagem passagem) {
+	public List<Passagem> listar(Passagem passagem) {
 		List<Passagem> lista = new ArrayList<Passagem>();
 		lista.add(passagens.get(passagem.getId()));
 		return lista;
-	}
+		}
 
+	public boolean consultarCadeira(String cadeira) {
+		Optional<Passagem> op = passagens
+				.values()
+				.stream()
+				.filter(d-> d.getAssento().equals(cadeira) )
+				.findFirst();
+		if (op.isPresent()) {
+			return true;
+		}		   
+		return false;
+	}
 }
 //CRUD OK
