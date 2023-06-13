@@ -3,15 +3,16 @@ package controller;
 
 import java.util.List;
 
+import Repositories.DetalheDaViagemRepository;
 import entities.DetalheDaViagem;
 
 public class DetalheDaViagemController {
 
 	private static DetalheDaViagemController instance;
-	private DetalheDaViagemController repositorio;
+	private DetalheDaViagemRepository repositorio;
 	
 	private DetalheDaViagemController() {
-		repositorio = DetalheDaViagemController.getInstance();	
+		repositorio = DetalheDaViagemRepository.getInstance();	
 	}
 	
 	public static DetalheDaViagemController getInstance() {
@@ -28,7 +29,7 @@ public class DetalheDaViagemController {
 			return null;
 			//lembrar de colocar um throw new CargaHorariaException("Falha: carga hor�ria n�o pode exceder 120 horas "+disciplina);
 		}else {
-			DetalheDaViagem aux = repositorio.inserirDetalheDaViagem(objDDViagem);
+			DetalheDaViagem aux = repositorio.inserir(objDDViagem);
 			System.out.println(aux+" adicionada");
 			return aux;
 		}
@@ -36,13 +37,13 @@ public class DetalheDaViagemController {
 	
 	public DetalheDaViagem alterarDetalheDaViagem(DetalheDaViagem objDDViagem) {
 		//tenho q ver em viagem e no detalhe tbm, na vdd nn pq existem varias passagens para o mesmo lguar
-		DetalheDaViagem consultaSeJaExiste = (DetalheDaViagem) this.consultar(objDDViagem);
+		DetalheDaViagem consultaSeJaExiste = (DetalheDaViagem) this.consultarDetalhes(objDDViagem);
 		if (consultaSeJaExiste != null) {
 			if (objDDViagem.isDisponivel() == false) {
 				System.out.println("Infelizmente estamos sem esse pacote no momento "+objDDViagem);
 				return null;
 			} else {
-				repositorio.alterarDetalheDaViagem(objDDViagem);
+				repositorio.alterar(objDDViagem);
 				//ViagemController.getInstance().atualizarDetalhe(objDDViagem);
 				System.out.println(consultaSeJaExiste + " alterado para " + objDDViagem);
 				return consultaSeJaExiste;
@@ -53,7 +54,7 @@ public class DetalheDaViagemController {
 		}
 	}
 	public DetalheDaViagem excluirDetalheDaViagem(DetalheDaViagem objDDViagem) {
-		DetalheDaViagem detalheDaViagem = repositorio.excluirDetalheDaViagem(objDDViagem);
+		DetalheDaViagem detalheDaViagem = repositorio.excluir(objDDViagem);
 		if (detalheDaViagem!= null) {
 			System.out.println(detalheDaViagem+" exclu�da");
 			return detalheDaViagem;
@@ -62,7 +63,7 @@ public class DetalheDaViagemController {
 			return null;
 		}
 	}
-	public List<DetalheDaViagem> consultar(DetalheDaViagem detalheDaViagem) {
+	public List<DetalheDaViagem> consultarDetalhes(DetalheDaViagem detalheDaViagem) {
 		List<DetalheDaViagem> detalheDaViagens = repositorio.consultar(detalheDaViagem);
 		if (detalheDaViagens.size() > 0 && detalheDaViagens.get(0) != null) {
 			return detalheDaViagens;

@@ -10,7 +10,6 @@ public class Passagem {
 	private double valor;
 	private String origem;
     private String localEmbarque;
-    private String dataHora;
     private TipoPassagem tipoPassagem;
     private String empresa;
     private String assento;
@@ -20,7 +19,7 @@ public class Passagem {
     }
     
 	public Passagem(Integer id, String destino, String data, String horario, double valor, String origem, String localEmbarque,
-					String dataHora, TipoPassagem tipoPassagem, String empresa, String assento) {
+					TipoPassagem tipoPassagem, String empresa, String assento) {
 		this.id = id;
 		this.destino = destino;
 		this.data = data;
@@ -28,7 +27,6 @@ public class Passagem {
 		this.valor = valor;
 		this.origem = origem;
 		this.localEmbarque = localEmbarque;
-		this.dataHora = dataHora;
 		this.tipoPassagem = tipoPassagem;
 		this.empresa = empresa;
 		this.assento = assento;
@@ -81,14 +79,6 @@ public class Passagem {
 
 	public void setLocalEmbarque(String localEmbarque) {
 		this.localEmbarque = localEmbarque;
-	}
-
-	public String getDataHora() {
-		return dataHora;
-	}
-
-	public void setDataHora(String dataHora) {
-		this.dataHora = dataHora;
 	}
 
 	public TipoPassagem getTipoPassagem() {

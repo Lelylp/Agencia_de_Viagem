@@ -2,16 +2,16 @@ package controller;
 
 import java.util.List;
 
-import entities.DetalheDaViagem;
+import Repositories.PassagemRepository;
 import entities.Passagem;
 
 public class PassagemController {
 
 	private static PassagemController instance;
-	private PassagemController repositorio;
+	private PassagemRepository repositorio;
 	
 	private PassagemController() {
-		repositorio = PassagemController.getInstance();	
+		repositorio = PassagemRepository.getInstance();	
 	}
 	
 	public static PassagemController getInstance() {
@@ -22,31 +22,49 @@ public class PassagemController {
 	}
 	
 	public Passagem inserirPassagemDaViagem(Passagem passagem) {
-		//valor>0 && assento diferente de outro assento
-		//fazer throw pra ca tbm
-		if (passagem.getValor()<=0 && passagem.getAssento() != repositorio.consultarAssentoPassagemDaViagem(passagem.getAssento())){
-			System.out.println("Assentos invalido "+passagem);
-			//tem q ter um throw aqui tbm
-			return null;
-			//lembrar de colocar um throw new CargaHorariaException("Falha: carga hor�ria n�o pode exceder 120 horas "+disciplina);
-		}else {
-			Passagem aux = repositorio.inserirPassagemDaViagem(passagem);
-			System.out.println(aux+" adicionada");
-			return aux;
-		}
-		return null;
+        if (passagem != null) {
+            if (passagem.getDestino() == null || passagem.getDestino().trim().isEmpty()){
+                //throw new PassagemValidationException("A passagem não possui uma valor válido");
+            }
+            if (passagem.getData() == null || passagem.getData().trim().isEmpty()) {
+                //throw new PassagemValidationException("A passagem não possui uma data válida");
+            }
+            if (passagem.getHorario() == null || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+            if (passagem.getValor() <= 0 || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+            if (passagem.getOrigem() == null || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+            if (passagem.getLocalEmbarque() == null || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+            if (passagem.getTipoPassagem() == null || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+            if (passagem.getEmpresa() == null || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+            if (passagem.getAssento() == null || passagem.getLocalEmbarque().trim().isEmpty()) {
+                //throw new PassagemValidationException("O local de embarque não pode estar vazio");
+            }
+        	}
+        	repositorio.inserir(passagem);
+        	return passagem;
 	}
 	
 	public Passagem alterarPassagemViagem(Passagem passagem) {
 		Passagem consultaSeJaExiste = (Passagem) this.consultarAssentoPassagemDaViagem(passagem.getAssento());
 		if (consultaSeJaExiste != null) {
-			if (passagem.getValor()<=0 && passagem.getAssento() != repositorio.consultarAssentoPassagemDaViagem(passagem.getAssento())) {
+			if (passagem.getAssento().equals(repositorio.consultar(passagem))) {
 				System.out.println("Assentos invalido "+passagem);
 				return null;
 			} else {
-				repositorio.alterarPassagemViagem(passagem);
+				repositorio.alterar(passagem)
 				//ViagemController.getInstance().atualizarDetalhe(objDDViagem);
-				System.out.println(consultaSeJaExiste + " alterado para " + passagem);
+				//alguma coisa
 				return consultaSeJaExiste;
 			}
 		}else {
@@ -55,7 +73,7 @@ public class PassagemController {
 		}
 	}
 	public Passagem excluirPassagemDaViagem(Passagem passagem) {
-		Passagem exluirPassagem = repositorio.excluirPassagemDaViagem(passagem);
+		Passagem exluirPassagem = repositorio.excluir(passagem);
 		if (exluirPassagem!= null) {
 			System.out.println(exluirPassagem+" exclu�da");
 			return exluirPassagem;
@@ -64,11 +82,9 @@ public class PassagemController {
 			return null;
 		}
 	}
-	public Passagem consultarAssentoPassagemDaViagem(String string) {
-		Passagem algumaCoisa = new Passagem(string);
-		//fazer ele rodar o repostirio e achar o assento passado
+	public List<Passagem> consultarAssentoPassagemDaViagem(String assento) {
+		List<Passagem> passagens = repositorio.consultar(new Passagem(assento));
 	
-		List<Passagem> passagens = algumCoisa;
 		if (passagens.size() > 0 && passagens.get(0) != null) {
 			return passagens;
 		} else {
