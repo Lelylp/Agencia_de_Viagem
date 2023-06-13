@@ -1,0 +1,12 @@
+package Enum;
+
+public enum Lugar {
+	RIO_DE_JANEIRO_RJ,
+	FLOORIANOPOLIS_SC,
+	SAO_PAULO_SP,
+	BUZIOS_RJ,
+	SALVADOR_BA,
+	FOZ_DO_IGUACU_PR,
+	PARATY_RJ,
+	MANAUS_AM
+}
