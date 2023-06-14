@@ -66,11 +66,13 @@ public class PassagemRepository implements GenericRepository<Passagem> {
 		return lista;
 		}
 
-	public boolean consultarCadeira(String cadeira) {
+	public boolean consultarCadeira(Passagem passagem) {
 		Optional<Passagem> op = passagens
 				.values()
 				.stream()
-				.filter(d-> d.getAssento().equals(cadeira) )
+				.filter(d-> d.getAssento().equals(passagem.getAssento())
+						&& d.getEmpresa().equals(passagem.getEmpresa())
+						&& d.getDestino().equals(passagem.getDestino()))
 				.findFirst();
 		if (op.isPresent()) {
 			return true;

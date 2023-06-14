@@ -1,9 +1,11 @@
 package controller;
-import entities.Viagem;
-import Repositories.ViagemRepository;
-import java.util.List;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
+
+import Enum.Lugar;
+import Repositories.ViagemRepository;
+import entities.Viagem;
+import exceptions.ViagemValidationException;
 
 public class ViagemController {
 
@@ -13,56 +15,69 @@ public class ViagemController {
         repository = ViagemRepository.getInstance();
     }
 
-    public Viagem criarViagem(double valor, Lugar lugar, LocalDate data) {
+    public Viagem criarViagem(double valor, Lugar lugar, LocalDate data) throws ViagemValidationException  {
         if (valor <= 0) {
-            throw new IllegalArgumentException("O valor da viagem deve ser maior que zero.");
+            throw new ViagemValidationException("O valor da viagem deve ser maior que zero.");
         }
 
         if (lugar == null) {
-            throw new IllegalArgumentException("O lugar da viagem não pode ser nulo.");
+            throw new ViagemValidationException("O lugar da viagem não pode ser nulo.");
         }
 
         if (data == null) {
-            throw new IllegalArgumentException("A data da viagem não pode ser nula.");
+            throw new ViagemValidationException("A data da viagem não pode ser nula.");
         }
 
         Viagem viagem = new Viagem(valor, lugar, data);
         return repository.inserir(viagem);
     }
 
-    public Viagem alterarViagem(Viagem viagem) {
+    public Viagem alterarViagem(Viagem viagem) throws ViagemValidationException {
         if (viagem == null) {
-            throw new IllegalArgumentException("A viagem não pode ser nula.");
+            throw new ViagemValidationException("A viagem não pode ser nula.");
         }
 
         if (viagem.getId() == null) {
-            throw new IllegalArgumentException("Não é possível alterar uma viagem sem ID.");
+            throw new ViagemValidationException("Não é possível alterar uma viagem sem ID.");
         }
 
         return repository.alterar(viagem);
     }
 
-    public Viagem excluirViagem(Viagem viagem) {
+    public Viagem excluirViagem(Viagem viagem) throws ViagemValidationException {
         if (viagem == null) {
-            throw new IllegalArgumentException("A viagem não pode ser nula.");
+            throw new ViagemValidationException("A viagem não pode ser nula.");
         }
 
         if (viagem.getId() == null) {
-            throw new IllegalArgumentException("Não é possível excluir uma viagem sem ID.");
+            throw new ViagemValidationException("Não é possível excluir uma viagem sem ID.");
         }
 
         return repository.excluir(viagem);
     }
-
-    public List<Viagem> consultarViagens(Viagem viagem) {
+    
+//modificao de Marcos
+    public List<Viagem> consultarViagens(Viagem viagem) throws ViagemValidationException {
         if (viagem == null) {
-            throw new IllegalArgumentException("A viagem não pode ser nula.");
+            throw new ViagemValidationException("A viagem não pode ser nula.");
         }
 
-        if (viagem.getId() == null) {
-            throw new IllegalArgumentException("Não é possível consultar uma viagem sem ID.");
+        if (viagem.getLugar() == null) {
+            throw new ViagemValidationException("Não é possível consultar uma viagem sem Lugar.");
         }
 
-        return repository.consultar(viagem);
+        if (viagem.getValor() == 0 ) {
+            throw new ViagemValidationException("Não é possível consultar uma viagem sem Valor.");
+        }
+        
+        if (viagem.getData() == null) {
+            throw new ViagemValidationException("Não é possível consultar uma viagem sem data.");
+        }
+
+        try {
+            return repository.consultar(viagem);
+        } catch (Exception e) {
+            throw new ViagemValidationException("Ocorreu um erro ao consultar as viagens.");
+        }
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import Repositories.DetalheDaViagemRepository;
 import entities.DetalheDaViagem;
+import exceptions.DetalhesValidationException;
 
 public class DetalheDaViagemController {
 
@@ -22,54 +23,49 @@ public class DetalheDaViagemController {
 		return instance;
 	}
 	
-	public DetalheDaViagem inserirDetalheDaViagem(DetalheDaViagem objDDViagem) {
-		if (objDDViagem.isDisponivel() == false && objDDViagem.getDestino() != objDDViagem.getOrigem()){
-			System.out.println("Infelizmente estamos sem esse pacote no momento "+objDDViagem);
-			//tem q ter um throw aqui tbm
-			return null;
-			//lembrar de colocar um throw new CargaHorariaException("Falha: carga hor�ria n�o pode exceder 120 horas "+disciplina);
-		}else {
-			DetalheDaViagem aux = repositorio.inserir(objDDViagem);
-			System.out.println(aux+" adicionada");
-			return aux;
-		}
-	}
+	 public DetalheDaViagem inserirDetalheDaViagem(DetalheDaViagem objDDViagem) throws DetalhesValidationException {
+	        if (!objDDViagem.isDisponivel() && !objDDViagem.getDestino().equals(objDDViagem.getOrigem())) {
+	            System.out.println("Infelizmente estamos sem esse pacote no momento " + objDDViagem);
+	            throw new DetalhesValidationException("Detalhes inválidos: " + objDDViagem);
+	        } else {
+	            DetalheDaViagem aux = repositorio.inserir(objDDViagem);
+	            System.out.println(aux + " adicionada");
+	            return aux;
+	        }
+	    }
 	
-	public DetalheDaViagem alterarDetalheDaViagem(DetalheDaViagem objDDViagem) {
-		//tenho q ver em viagem e no detalhe tbm, na vdd nn pq existem varias passagens para o mesmo lguar
-		DetalheDaViagem consultaSeJaExiste = (DetalheDaViagem) this.consultarDetalhes(objDDViagem);
-		if (consultaSeJaExiste != null) {
-			if (objDDViagem.isDisponivel() == false) {
-				System.out.println("Infelizmente estamos sem esse pacote no momento "+objDDViagem);
-				return null;
-			} else {
-				repositorio.alterar(objDDViagem);
-				//ViagemController.getInstance().atualizarDetalhe(objDDViagem);
-				System.out.println(consultaSeJaExiste + " alterado para " + objDDViagem);
-				return consultaSeJaExiste;
-			}
-		}else {
-			System.out.println(objDDViagem+" n�o encontrada");
-			return null;
+	 public DetalheDaViagem alterarDetalheDaViagem(DetalheDaViagem objDDViagem) throws DetalhesValidationException {
+		    DetalheDaViagem consultaSeJaExiste = (DetalheDaViagem) this.consultarDetalhes(objDDViagem);
+		    if (consultaSeJaExiste != null) {
+		        if (objDDViagem.isDisponivel() == false) {
+		            throw new DetalhesValidationException("Infelizmente estamos sem esse pacote no momento" + objDDViagem);
+		        } else {
+		            repositorio.alterar(objDDViagem);
+		            //ViagemController.atualizarDetalhe(objDDViagem);
+		            System.out.println(consultaSeJaExiste + " alterado para " + objDDViagem);
+		            return consultaSeJaExiste;
+		        }
+		    } else {
+		    	 throw new DetalhesValidationException("Não encontrada" + objDDViagem);
+		    }
 		}
-	}
-	public DetalheDaViagem excluirDetalheDaViagem(DetalheDaViagem objDDViagem) {
-		DetalheDaViagem detalheDaViagem = repositorio.excluir(objDDViagem);
-		if (detalheDaViagem!= null) {
-			System.out.println(detalheDaViagem+" exclu�da");
-			return detalheDaViagem;
-		}else {
-			System.out.println(detalheDaViagem+" n�o encontrada");
-			return null;
+
+	 public DetalheDaViagem excluirDetalheDaViagem(DetalheDaViagem objDDViagem) throws DetalhesValidationException {
+		    DetalheDaViagem detalheDaViagem = repositorio.excluir(objDDViagem);
+		    if (detalheDaViagem != null) {
+		        System.out.println(detalheDaViagem + " excluída");
+		        return detalheDaViagem;
+		    } else {
+		        throw new DetalhesValidationException(detalheDaViagem + " não encontrada");
+		    }
 		}
-	}
-	public List<DetalheDaViagem> consultarDetalhes(DetalheDaViagem detalheDaViagem) {
-		List<DetalheDaViagem> detalheDaViagens = repositorio.listar(detalheDaViagem);
-		if (detalheDaViagens.size() > 0 && detalheDaViagens.get(0) != null) {
-			return detalheDaViagens;
-		} else {
-			return null;
-			//throw new DisciplinaNotFoundException("Nenhuma disciplina encontrada para o id: " + id);
+
+	 public List<DetalheDaViagem> consultarDetalhes(DetalheDaViagem detalheDaViagem) throws DetalhesValidationException {
+		    List<DetalheDaViagem> detalheDaViagens = repositorio.listar(detalheDaViagem);
+		    if (detalheDaViagens.size() > 0 && detalheDaViagens.get(0) != null) {
+		        return detalheDaViagens;
+		    } else {
+		        throw new DetalhesValidationException("Nenhum detalhe encontrado para " + detalheDaViagem);
+		    }
 		}
-	}
-}
+ }

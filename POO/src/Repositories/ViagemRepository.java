@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import entities.DetalheDaViagem;
 import entities.Viagem;
 
 public class ViagemRepository implements GenericRepository<Viagem>{
@@ -65,15 +64,19 @@ public class ViagemRepository implements GenericRepository<Viagem>{
 		return lista;
 	}
 
-	public List<Viagem> consultar(Viagem viagem) {
-		List<Viagem> viagens = this.viagens.get(viagem);
-		if (viagens.size() > 0 && viagens.get(0) != null) {
-			return Viagem;
-		} else {
-			return null;
-			//throw new DisciplinaNotFoundException("Nenhuma disciplina encontrada para o id: " + id);
-		}
+	public List<Viagem> consultar(Viagem viagemConsulta) {
+	    List<Viagem> resultado = new ArrayList<>();
+
+	    for (Viagem viagem : viagens.values()) {
+	        if (viagem.getLugar().equals(viagemConsulta.getLugar()) &&
+	            viagem.getValor() == viagemConsulta.getValor() &&
+	            viagem.getData().equals(viagemConsulta.getData())) {
+	            resultado.add(viagem);
+	        }
+	    }
+
+	    return resultado;
 	}
 }
 
-//CRUD OK
+//CRUD OK 

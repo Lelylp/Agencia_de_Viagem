@@ -4,6 +4,7 @@ import java.util.List;
 
 import Repositories.RelatorioViagemRepository;
 import entities.RelatorioViagem;
+import exceptions.RelatorioValidationException;
 
 public class RelatorioViagemController {
 
@@ -21,66 +22,58 @@ public class RelatorioViagemController {
 		return instance;
 	}
 	
-	public RelatorioViagem inserirRelatorioViagem(RelatorioViagem relatorioViagem) {
-		if (relatorioViagem.getMes() < 1 && relatorioViagem.getMes() > 13 ) {
-			System.out.println("Falha: Mes invalido");
-			//throw new CargaHorariaException("Falha: carga horária não pode exceder 120 horas "+relatorioViagem);
-		}
-		if (relatorioViagem.getDestino() == null) {			
-			System.out.println(relatorioViagem+" já cadastrada");
-			//throw new DisciplinaJaCadastradaException(relatorioViagem+" já cadastrada");
-		}
-		RelatorioViagem d = repositorio.inserir(relatorioViagem);
-		System.out.println(d+" adicionada");
-		return d;
-	}
+	  public RelatorioViagem inserirRelatorioViagem(RelatorioViagem relatorioViagem) throws RelatorioValidationException {
+	        if (relatorioViagem.getMes() < 1 || relatorioViagem.getMes() > 12) {
+	            throw new RelatorioValidationException("Mês inválido: " + relatorioViagem.getMes());
+	        }
+	        if (relatorioViagem.getDestino() == null) {
+	            throw new RelatorioValidationException("Destino não informado");
+	        }
+	        RelatorioViagem d = repositorio.inserir(relatorioViagem);
+	        System.out.println(d + " adicionada");
+	        return d;
+	    }
 	
-	public RelatorioViagem alterarRelatorioViagem(RelatorioViagem relatorioViagem) {
-		RelatorioViagem relatorioViagemConsulta = (RelatorioViagem) this.consultar(relatorioViagem);
-		//mudar essa merda
-		if (relatorioViagemConsulta!= null) {
-			if (relatorioViagem.getMes() < 1 && relatorioViagem.getMes() > 13 ) {
-				System.out.println("Falha: Mes invalido");
-				//throw new CargaHorariaException("Falha: carga horária não pode exceder 120 horas "+relatorioViagem);
-			}
-			if (relatorioViagem.getDestino() == null) {			
-				System.out.println(relatorioViagem+" já cadastrada");
-				//throw new DisciplinaJaCadastradaException(relatorioViagem+" já cadastrada");
-			}
-				repositorio.alterar(relatorioViagem);
-				RelatorioViagemController.getInstance().alterarRelatorioViagem(relatorioViagem);
-				System.out.println(relatorioViagemConsulta + " alterado para " + relatorioViagem);
-				return relatorioViagemConsulta;
-		}else {
-			System.out.println(relatorioViagem+" não encontrado");
-			return null;
+	  public RelatorioViagem alterarRelatorioViagem(RelatorioViagem relatorioViagem) throws RelatorioValidationException {
+		    RelatorioViagem relatorioViagemConsulta = (RelatorioViagem) this.consultar(relatorioViagem);
+		    if (relatorioViagemConsulta != null) {
+		        if (relatorioViagem.getMes() < 1 || relatorioViagem.getMes() > 12) {
+		            throw new RelatorioValidationException("Mês inválido: " + relatorioViagem.getMes());
+		        }
+		        if (relatorioViagem.getDestino() == null) {
+		            throw new RelatorioValidationException("Destino não informado");
+		        }
+		        repositorio.alterar(relatorioViagem);
+		        RelatorioViagemController.getInstance().alterarRelatorioViagem(relatorioViagem);
+		        System.out.println(relatorioViagemConsulta + " alterado para " + relatorioViagem);
+		        return relatorioViagemConsulta;
+		    } else {
+		        System.out.println(relatorioViagem + " não encontrado");
+		        return null;
+		    }
 		}
-		
-	}
-	public RelatorioViagem excluirRelatorioViagem(RelatorioViagem relatorioViagem) {
-		RelatorioViagem excluida = repositorio.excluir(relatorioViagem);
-		if (excluida!= null) {
-			System.out.println(excluida+" excluída");
-			return excluida;
-		}else {
-			System.out.println(excluida+" não encontrada");
-			return null;
+
+	  public RelatorioViagem excluirRelatorioViagem(RelatorioViagem relatorioViagem) throws RelatorioValidationException {
+		    RelatorioViagem excluida = repositorio.excluir(relatorioViagem);
+		    if (excluida != null) {
+		        System.out.println(excluida + " excluída");
+		        return excluida;
+		    } else {
+		        throw new RelatorioValidationException("Relatório de viagem não encontrado: " + relatorioViagem);
+		    }
 		}
-		
-	}
+
 	public List<RelatorioViagem> listarRelatorioViagem(RelatorioViagem relatorioViagem) {
 		return repositorio.listar(relatorioViagem);	
 	}
 	
-	public List<RelatorioViagem> consultar(RelatorioViagem relatorioViagem){
-		List<RelatorioViagem> RelatorioViagens = repositorio.consultarPorMes(relatorioViagem.getMes());
-		if (RelatorioViagens.size() > 0 && RelatorioViagens.get(0) != null) {
-			return RelatorioViagens;
-		} else {
-			return null;
-			//throw new DisciplinaNotFoundException("Nenhuma disciplina encontrada para o id: " + id);
-		}
-
+	public List<RelatorioViagem> consultar(RelatorioViagem relatorioViagem) throws RelatorioValidationException {
+	    List<RelatorioViagem> relatorioViagens = repositorio.consultarPorMes(relatorioViagem.getMes());
+	    if (relatorioViagens.size() > 0 && relatorioViagens.get(0) != null) {
+	        return relatorioViagens;
+	    } else {
+	        throw new RelatorioValidationException("Nenhum relatório de viagem encontrado para o mês: " + relatorioViagem.getMes());
+	    }
 	}
 
 }
