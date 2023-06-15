@@ -38,22 +38,25 @@ public class PassagemRepository implements GenericRepository<Passagem> {
 	}
 
 	@Override
-	public Passagem alterar(Passagem passagem) {
-		Passagem autentico = passagens.get(passagem.getId());		
-		try {
-			passagens.put(passagem.getId(), passagem);
-			return autentico;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
+	 public Passagem alterar(Passagem passagem) {
+	        Passagem autentico = passagens.get(passagem.getId());
+	        if (autentico != null) {
+	            autentico.setDestino(passagem.getDestino());
+	            return autentico;
+	        } else {
+	            return null;
+	        }
+	    }
+	
 	@Override
 	public Passagem excluir(Passagem passagem) {
 		Passagem autentico = passagens.get(passagem.getId());		
 		try {
-			passagens.remove(passagem.getId());
-			return autentico;
+			if (autentico != null) {
+				passagens.remove(passagem.getId());
+				return autentico;
+			}
+			return null;
 		} catch (Exception e) {
 			return null;
 		}

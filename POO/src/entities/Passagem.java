@@ -3,6 +3,7 @@ package entities;
 import Enum.TipoPassagem;
 
 public class Passagem {
+	
 	private Integer id;
 	private String destino;
 	private String data;
@@ -14,6 +15,11 @@ public class Passagem {
     private String empresa;
     private String assento;
 
+    
+    public Passagem () {
+    
+    }
+    
     public Passagem (String assento) {
     	this.assento = assento;
     }
@@ -113,4 +119,27 @@ public class Passagem {
 		this.id = id;
 	}
 	
+	public String toString() {
+		return "Passagem criada  ID: " 
+				+ id 
+				+ ", Destino: " 
+				+ destino 
+				+ ", Data: " 
+				+ data 
+				+ ", Horario : " 
+				+ horario 
+				+ ", Valor :"
+				+ valor 
+				+ ", Origem : " 
+				+ origem 
+				+ ", LocalEmbarque :" 
+				+ localEmbarque 
+				+ ", Tipo da Passagem :" 
+				+ tipoPassagem
+				+ ", Empresa: " 
+				+ empresa 
+				+ ", Assento : " 
+				+ assento;
+	}
+
 }

@@ -22,9 +22,11 @@ public class DetalheDaViagemService {
 			return original;
 	}
 	
-	public DetalheDaViagem delete(Integer id) throws DetalhesValidationException {
-		DetalheDaViagem detalheDaViagem = DetalheDaViagemController.getInstance().excluirDetalheDaViagem(new DetalheDaViagem(id));
-		return detalheDaViagem;
+	public DetalheDaViagem delete( DetalheDaViagem d) throws DetalhesValidationException {
+		return DetalheDaViagemController.getInstance().excluirDetalheDaViagem(d);
 	}
 	
+	 public List<DetalheDaViagem> consultarDetalhes(Integer id) throws DetalhesValidationException{
+		 return	DetalheDaViagemController.getInstance().consultarDetalhes(id);
+	 }
 }

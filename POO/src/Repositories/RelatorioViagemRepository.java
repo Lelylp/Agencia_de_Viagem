@@ -79,4 +79,3 @@ public class RelatorioViagemRepository implements GenericRepository<RelatorioVia
 	}
 
 }
-//CRUD OK

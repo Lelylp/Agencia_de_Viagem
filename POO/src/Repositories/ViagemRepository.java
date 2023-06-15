@@ -34,17 +34,16 @@ public class ViagemRepository implements GenericRepository<Viagem>{
 			return null;
 		}		
 	}
-
 	@Override
-	public Viagem alterar(Viagem viagem) {
-		Viagem autentico = viagens.get(viagem.getId());
-		try {
-			viagens.put(viagem.getId(), viagem);
-			return autentico;
-		}catch (Exception E) {
-			return null;
-		}
-	}
+	 public Viagem alterar(Viagem viagem) {
+	        Viagem autentico = viagens.get(viagem.getId());
+	        if (autentico != null) {
+	            autentico.setValor(viagem.getValor());
+	            return autentico;
+	        } else {
+	            return null;
+	        }
+	    }
 
 	@Override
 	public Viagem excluir(Viagem viagem) {

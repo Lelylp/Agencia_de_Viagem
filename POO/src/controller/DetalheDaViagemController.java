@@ -41,7 +41,7 @@ public class DetalheDaViagemController {
 		            throw new DetalhesValidationException("Infelizmente estamos sem esse pacote no momento" + objDDViagem);
 		        } else {
 		            repositorio.alterar(objDDViagem);
-		            //ViagemController.atualizarDetalhe(objDDViagem);
+		            //ViagemController.getInstance().alterarViagem(objDDViagem);
 		            System.out.println(consultaSeJaExiste + " alterado para " + objDDViagem);
 		            return consultaSeJaExiste;
 		        }
@@ -50,15 +50,17 @@ public class DetalheDaViagemController {
 		    }
 		}
 
-	 public DetalheDaViagem excluirDetalheDaViagem(DetalheDaViagem objDDViagem) throws DetalhesValidationException {
-		    DetalheDaViagem detalheDaViagem = repositorio.excluir(objDDViagem);
-		    if (detalheDaViagem != null) {
-		        System.out.println(detalheDaViagem + " excluída");
-		        return detalheDaViagem;
-		    } else {
-		        throw new DetalhesValidationException(detalheDaViagem + " não encontrada");
-		    }
-		}
+	 public DetalheDaViagem excluirDetalheDaViagem(DetalheDaViagem detalheDaViagem) throws DetalhesValidationException {
+	        if (detalheDaViagem == null) {
+	            throw new DetalhesValidationException("A viagem não pode ser nula.");
+	        }
+
+	        if (detalheDaViagem.getId() == null) {
+	            throw new DetalhesValidationException("Não é possível excluir uma viagem sem ID.");
+	        }
+
+	        return repositorio.excluir(detalheDaViagem);
+	    }
 
 	 public List<DetalheDaViagem> consultaSeJaExiste(DetalheDaViagem detalheDaViagem) throws DetalhesValidationException {
 		    List<DetalheDaViagem> detalheDaViagens = repositorio.verSeExiste(detalheDaViagem);

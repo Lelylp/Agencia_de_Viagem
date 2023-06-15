@@ -5,8 +5,12 @@ public class RelatorioViagem {
 	private int mes;
     private String destino;
     private int numeroViagens;
+    
+    public RelatorioViagem() {
+    	
+    }
 
-    public RelatorioViagem(int mes, String destino, int numeroViagens) {
+	public RelatorioViagem(int mes, String destino, int numeroViagens) {
 		this.id = 0;
 		this.mes = mes;
 		this.destino = destino;
@@ -48,6 +52,15 @@ public class RelatorioViagem {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-    
+	
+	public String toString() {
+		return "RelatorioViagem ID: " 
+				+ id 
+				+ ", Mes: " 
+				+ mes 
+				+ ", Destino: " 
+				+ destino 
+				+ ", Numero de viagens: "
+				+ numeroViagens;
+	}
 }
-//fazer super para relatorio de usuario/empresa

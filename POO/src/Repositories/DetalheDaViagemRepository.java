@@ -78,4 +78,3 @@ public class DetalheDaViagemRepository implements GenericRepository<DetalheDaVia
 	}
 
 }
-//CRUD OK

@@ -56,41 +56,36 @@ public class PassagemController {
         	return passagem;
 	}
 	
-	public Passagem alterarPassagemViagem(Passagem passagem) throws PassagemValidationException {
-		Passagem consultaSeJaExiste = (Passagem) this.consultarAssentoPassagemDaViagem(passagem.getAssento());
-		if (consultaSeJaExiste != null) {
-			if ((repositorio.consultarCadeira(passagem))) {
-				System.out.println("Assentos invalido "+passagem);
-				return null;
-			} else {
-				repositorio.alterar(passagem);
-				//ViagemController
-				return consultaSeJaExiste;
-			}
-		}else {
-			System.out.println(passagem+" n�o encontrada");
-			return null;
-		}
-	}
-	
-	public Passagem excluirPassagemDaViagem(Passagem passagem) {
-	    Passagem excluirPassagem = repositorio.excluir(passagem);
-	    if (excluirPassagem != null) {
-	        System.out.println(excluirPassagem + " excluída");
-	        return excluirPassagem;
-	    } else {
-	        System.out.println("Passagem não encontrada: " + passagem);
-	        return null;
-	    }
-	}
+	 public Passagem alterarDestino(Passagem passagem) throws PassagemValidationException {
+	        if (passagem == null) {
+	            throw new PassagemValidationException("A viagem não pode ser nula.");
+	        }
+	        
+	        if (passagem.getId() == null) {
+	            throw new PassagemValidationException("Não é possível alterar uma viagem sem ID.");
+	        }
+	        
+	        repositorio.alterar(passagem);
+	        return passagem;
+	 }
+	 
+	public Passagem excluirPassagem(Passagem passagem) throws PassagemValidationException {
+        if (passagem == null) {
+            throw new PassagemValidationException("A passagem não pode ser nula.");
+        }
 
-	public List<Passagem> consultarAssentoPassagemDaViagem(String assento) throws PassagemValidationException {
-	    List<Passagem> passagens = repositorio.consultar(new Passagem(assento));
-	    
-	    if (passagens.size() > 0 && passagens.get(0) != null) {
-	        return passagens;
+        if (passagem.getId() == null) {
+            throw new PassagemValidationException("Não é possível excluir uma passagem sem ID.");
+        }
+
+        return repositorio.excluir(passagem);
+    }
+
+	public Passagem consultarAssentoPassagemDaViagem(Passagem passagem) throws PassagemValidationException {
+	    if (repositorio.consultarCadeira(passagem)) {
+	        return passagem;
 	    } else {
-	        throw new PassagemValidationException("Passagem não encontrada para o assento: " + assento);
+	        throw new PassagemValidationException("Passagem não encontrada para o assento: " + passagem.getAssento());
 	    }
 	}
 	

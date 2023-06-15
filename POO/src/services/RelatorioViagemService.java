@@ -22,8 +22,11 @@ public class RelatorioViagemService {
 			return original;
 	}
 	
-	public RelatorioViagem delete(Integer id) throws RelatorioValidationException {
-		RelatorioViagem relatorioViagem = RelatorioViagemController.getInstance().excluirRelatorioViagem(new RelatorioViagem(id));
-		return relatorioViagem;
+	public RelatorioViagem  delete(RelatorioViagem  d) throws RelatorioValidationException {
+		return RelatorioViagemController.getInstance().excluirRelatorioViagem(d);
+	}
+	
+	public List<RelatorioViagem> consultar(RelatorioViagem d)throws RelatorioValidationException {
+		 return RelatorioViagemController.getInstance().consultar(d);
 	}
 }

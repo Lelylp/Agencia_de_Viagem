@@ -11,6 +11,10 @@ public class Viagem {
     private Integer id;
     private List<DetalheDaViagem> detalhes;
     
+    public Viagem() {
+    	
+    }
+    
     public Viagem(double valor, Lugar lugar, LocalDate data) {
     	this.id = 0;
 		this.setData(data);
@@ -58,4 +62,19 @@ public class Viagem {
 	public void setDetalhes(List<DetalheDaViagem> detalhes) {
 		this.detalhes = detalhes;
 	}
+
+	@Override
+	public String toString() {
+		return "Viagem Data: " 
+				+ data 
+				+ ", Valor: " 
+				+ valor 
+				+ ", Lugar:" 
+				+ lugar 
+				+ ", Id: " 
+				+ id
+				+ ", Detalhes:      "
+				+ detalhes;
+	}
+	
 }

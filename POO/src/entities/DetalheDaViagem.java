@@ -107,5 +107,20 @@ public class DetalheDaViagem {
 		detalheDaViagem.setSeguro(this.isSeguro());
 		return detalheDaViagem;
 	}
+
+	public String toString() {
+		return "DetalheDaViagem ID: " 
+				+ id 
+				+ ", Quantidade de Pessoas: " 
+				+ quantPessoas 
+				+ ", Seguro: " 
+				+ seguro 
+				+ ", Destino: "
+				+ destino
+				+ ", Origem: " 
+				+ origem 
+				+ ", Disponibilidade: " 
+				+ disponivel;
+	}
 	
 	}
